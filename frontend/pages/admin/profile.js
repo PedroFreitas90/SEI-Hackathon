@@ -13,6 +13,7 @@ import {
   Row,
   Col,
 } from "reactstrap";
+import Admin from "../../layouts/Admin";
 
 
 // layout for this page
@@ -21,9 +22,10 @@ import {
 function Profile() {
   return (
     <>
+ </>
+ 
       
-    </>
-  );
+  )   
 }
 
 Profile.layout = Admin;

@@ -101,3 +101,14 @@ req.body = {
     password: String
 }
 ```
+
+___
+
+#### Adicionar área de conhecimento
+`192.168.1.230:3000/explicadores/adicionarPar`
+
+```js
+req.body = {
+    area: String,   // POR EXEMPLO:    Estudo do meio
+    ano: String     // POR EXEMPLO:    1º ano
+}

@@ -2,8 +2,9 @@ const mongoose = require('mongoose')
 
 var pairSchema = new mongoose.Schema({
   area: { type : String, required : true } ,
-  ano : { type: String, required : true }
-});
+  ano : { type: String, required : true },
+
+}, {_id: 0});
 
 
 var explicadorSchema = new mongoose.Schema({

@@ -116,7 +116,7 @@ Estados disponíveis: `Pendente | Aceite`
 ### Rotas
 
 #### Criar Pedido
-`192.168.1.230:3000/pedidos`
+` POST 192.168.1.230:3000/pedidos`
 
 ```js
 req.body = {
@@ -127,3 +127,13 @@ req.body = {
 ```
 
 **Precisa do token do aluno no header**.
+
+#### Listar todos os pedidos
+` GET 192.168.1.230:3000/pedidos`
+
+**Precisa do token do explicador no header**.
+
+#### Listar todos os Pendentes
+` GET 192.168.1.230:3000/pedidos`
+
+**Precisa do token do explicador no header**.

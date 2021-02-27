@@ -11,6 +11,11 @@ module.exports.findById = id =>{
         .exec()
 }
 
+module.exports.getPendentes = () => {
+    return Pedido
+        .find({estado: "Pendente"})
+        .exec()
+}
 
 module.exports.pedidosPorPar = (area, ano) => {
     return Pedido

@@ -45,15 +45,13 @@ module.exports.adicionarPar = (id, pair) => {
 }
 
 module.exports.verificaPar = (id,area,ano) => {
+    //console.log(id, area, ano)
     return Explicador
         .aggregate([
-            { $unwind: "$domains" },
-            { $match : 
-                {
-                    $and: [
-                        { _id : id }, {"domains.area" : area} , {"domains.ano" : ano}]
-                }
-            }
+            { $unwind: "$domains" }
+            //,{ $match : { "id": id} }
+            
+            //{ $match : { id : id ,"domains.area" : area , "domains.ano" : ano } }
         ]).exec()
 }
 

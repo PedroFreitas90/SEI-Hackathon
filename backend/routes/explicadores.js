@@ -8,10 +8,12 @@ var GenerateToken = require('../security/generateToken')
 
 var Explicador = require('../controllers/explicadores');
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.get('/', passport.authenticate('jwt',{session:false}), function(req,res) {
+    Explicador.findById(req.user.userId)
+        .then(d => res.jsonp(d))
+        .catch(e => res.status(500).send(e))
+})
+
 
 // LOGIN
 router.post('/login', function(req,res){
@@ -41,17 +43,49 @@ router.post('/login', function(req,res){
         })
 });
 
+// Adicionar PAR
+router.post('/adicionarPar', passport.authenticate('jwt',{session:false}), function(req,res) {
+    if(req.user.tipo != 'Explicador')
+        return res.status(401).jsonp('Esta rota é apenas para professores!');
+    
+    Explicador.verificaPar(req.user.userId ,req.body.area, req.body.ano)
+        .then(verificaPar=> {
+            if (verificaPar.length == 0){ //não existe este par
+                let par = { area: req.body.area, ano: req.body.ano }
+                console.log(par)
+                Explicador.adicionarPar(req.user.userId , par)
+                    .then(ad_par => {
+                        console.log(ad_par)
+                        if(ad_par.nModified > 0 ){
+                            res.jsonp("Par adicionado!")
+                        }
+                        else{
+                            return res.status(400).jsonp("Par não adicionado!")
+                        }
+                    })
+                    .catch(e => res.status(500).jsonp("Erro a adicionar o par"))
+            }
+            else{
+                res.status(400).jsonp('Essa área de conhecimento já está associada a esse utilizador')
+            }
+        })
+        .catch(error =>{
+            res.status(500).jsonp(error)
+        })
+})
+
 // REGISTO
 router.post('/', function(req,res) {
     var newHash = bcrypt.hashSync(req.body.password);
     req.body.password = newHash
   
     Explicador.findByEmail(req.body.email)
-        .then(user =>{ 
-            if(user.length>0){
+        .then(user =>{
+            if(user.length > 0){
                 res.status(400).jsonp("Este email já está registado") 
             }
             else {
+                req.body.domains = [];
                 Explicador.insert(req.body)
                     .then(newUser => res.jsonp(newUser))
                     .catch(e => res.status(500).jsonp(e))

@@ -1,9 +1,5 @@
 import React from "react";
 import Link from 'next/link'
-//import { login } from '../api/login'
-
-
-import { ReactElement } from 'react'
 
 // reactstrap components
 import {
@@ -21,12 +17,35 @@ import {
   Col,
 } from "reactstrap";
 // layout for this page
+import Auth from "layouts/Auth.js";
 
-import Auth from "../../layouts/Auth";
-import { render } from "node-sass";
 
-export default function Login () {
+export default class Login extends React.Component {
 
+  state = {
+    email: '',
+    password: ''
+  }
+
+  handleChange = event => {
+    this.setState({ email: event.target.value });
+  }
+
+  handleSubmit = event => {
+    event.preventDefault();
+
+    const user = {
+      name: this.state.name
+    };
+
+    axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
+      .then(res => {
+        console.log(res);
+        console.log(res.data);
+      })
+  }
+
+  render() {
     return (
       <>
         <Col lg="5" md="7">
@@ -36,18 +55,15 @@ export default function Login () {
               <div className="text-center text-muted mb-4">
                 <small>Efetuar Login</small>
               </div>
-              <Form onSubmit={e => this.onSubmit(e)}>
-                <FormGroup  className="mb-3" >
+              <Form role="form">
+                <FormGroup className="mb-3">
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
                       <InputGroupText>
-                      <i className="ni ni-email-83" />
+                        <i className="ni ni-email-83" />
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      className=" form-control-alternative"
-                      id="email"
-                      name="email"
                       placeholder="Email"
                       type="email"
                       autoComplete="new-email"
@@ -58,13 +74,10 @@ export default function Login () {
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
                       <InputGroupText>
-                      <i className="ni ni-lock-circle-open" ></i>
+                        <i className="ni ni-lock-circle-open" />
                       </InputGroupText>
                     </InputGroupAddon>
                     <Input
-                      className=" form-control-alternative"
-                      id="password"
-                      name="password"
                       placeholder="Password"
                       type="password"
                       autoComplete="new-password"
@@ -72,8 +85,8 @@ export default function Login () {
                   </InputGroup>
                 </FormGroup>
                 
-                <div>
-                  <Button type="submit">
+                <div className="text-center">
+                  <Button className="my-4" color="primary" type="button">
                     Log in
                   </Button>
                 </div>
@@ -96,9 +109,11 @@ export default function Login () {
               </Link>
             </Col>
           </Row>
+  
+          
         </Col>
       </>
-    )
+    );
   }
   
 }

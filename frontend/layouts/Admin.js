@@ -28,7 +28,7 @@ function Admin(props) {
   return (
     <>
     <div >
-      <Sidebar style={{ backgroundColor:"red"}}
+      <Sidebar 
         {...props}
         routes={routes}
         logo={{
@@ -37,7 +37,7 @@ function Admin(props) {
           imgAlt: "...",
         }}
       />
-      <div className="main-content" ref={mainContentRef}>
+      <div className="main-content shadow border-10" ref={mainContentRef}>
         <AdminNavbar {...props} brandText={getBrandText()} />
         {props.children}
         <Container fluid>

@@ -1,5 +1,7 @@
 import React from "react";
 import Link from 'next/link'
+import axios from 'axios';
+
 
 // reactstrap components
 import {
@@ -27,21 +29,32 @@ export default class Login extends React.Component {
     password: ''
   }
 
-  handleChange = event => {
+  handleEmailChange = event => {
     this.setState({ email: event.target.value });
+  }
+
+  handlePassChange = event => {
+    this.setState({ password: event.target.value });
   }
 
   handleSubmit = event => {
     event.preventDefault();
 
-    const user = {
-      name: this.state.name
+    const data = {
+      email: this.state.email,
+      password: this.state.password
     };
 
-    axios.post(`https://jsonplaceholder.typicode.com/users`, { user })
+    const e = this.state.email
+    const p = this.state.password
+
+    console.log("email " + this.state.email);
+    console.log("pass " + this.state.password);
+
+    axios.post(`http://192.168.1.230:3000/login`, { data })
       .then(res => {
-        console.log(res);
-        console.log(res.data);
+        console.log("res " + res);
+        console.log("data " + res.data);
       })
   }
 
@@ -55,7 +68,7 @@ export default class Login extends React.Component {
               <div className="text-center text-muted mb-4">
                 <small>Efetuar Login</small>
               </div>
-              <Form role="form">
+              <form onSubmit={this.handleSubmit}>
                 <FormGroup className="mb-3">
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
@@ -67,6 +80,7 @@ export default class Login extends React.Component {
                       placeholder="Email"
                       type="email"
                       autoComplete="new-email"
+                      onChange={this.handleEmailChange}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -81,16 +95,17 @@ export default class Login extends React.Component {
                       placeholder="Password"
                       type="password"
                       autoComplete="new-password"
+                      onChange={this.handlePassChange}
                     />
                   </InputGroup>
                 </FormGroup>
                 
                 <div className="text-center">
-                  <Button className="my-4" color="primary" type="button">
+                  <Button className="my-4" color="primary" type="submit">
                     Log in
                   </Button>
                 </div>
-              </Form>
+              </form>
             </CardBody>
           </Card>
           <Row className="mt-3">

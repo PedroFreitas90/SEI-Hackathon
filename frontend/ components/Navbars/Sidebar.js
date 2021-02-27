@@ -78,8 +78,8 @@ function Sidebar(props) {
    <h2>Explica</h2>
   );
   return (
-    <Navbar
-      className="navbar-vertical fixed-left" 
+    <Navbar 
+      className="navbar-vertical fixed-left  " 
       expand="md"
       id="sidenav-main"
       style={{ backgroundColor:"#e5e2f3"}}

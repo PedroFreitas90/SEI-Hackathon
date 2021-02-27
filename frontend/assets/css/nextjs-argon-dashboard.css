@@ -5123,7 +5123,6 @@ input[type="button"].btn-block {
 }
 .accordion > .card > .card-header {
   border-radius: 0;
-  margin-bottom: -1px;
 }
 
 .breadcrumb {
@@ -6788,8 +6787,8 @@ button.bg-success:focus {
   background-color: #24a46d !important;
 }
 
-.bg-info {
-  background-color: #11cdef !important;
+.bg-red {
+  background-color: "red" !important;
 }
 
 a.bg-info:hover,
@@ -14190,8 +14189,8 @@ button.bg-pink:focus {
   background-color: #ed7790 !important;
 }
 
-.bg-red {
-  background-color: #f5365c !important;
+.bg-gray {
+  background-color: "silver" !important;
 }
 
 a.bg-red:hover,

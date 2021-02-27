@@ -22,6 +22,7 @@ router.post('/login', function(req,res){
                     responseExplicador.name = explicador[0].name
                     responseExplicador.email = explicador[0].email
                     responseExplicador.phone = explicador[0].phone
+                    responseExplicador.tipo = "Explicador"
                     responseExplicador.token = GenerateToken.generateTokenBackend(explicador[0].id , "Explicador")
                     res.jsonp(responseExplicador);
                 }
@@ -39,6 +40,7 @@ router.post('/login', function(req,res){
                                 responseAluno.name = aluno[0].name
                                 responseAluno.email = aluno[0].email
                                 responseAluno.phone = aluno[0].phone
+                                responseAluno.tipo = "Aluno"
                                 responseAluno.token = GenerateToken.generateTokenBackend(aluno[0].id , "Aluno")
                                 res.jsonp(responseAluno);
                             }

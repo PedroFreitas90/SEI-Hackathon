@@ -92,7 +92,7 @@ req.body = {
     ano: String     // POR EXEMPLO:    1º ano
 }
 ```
-
+**Precisa do token do explicador no header**.
 
 ___
 
@@ -111,3 +111,19 @@ Pedido = {
 ```
 
 Estados disponíveis: `Pendente | Aceite`
+
+
+### Rotas
+
+#### Criar Pedido
+`192.168.1.230:3000/pedidos`
+
+```js
+req.body = {
+    area: String,
+    ano: String,
+    mensagem: String
+}
+```
+
+**Precisa do token do aluno no header**.

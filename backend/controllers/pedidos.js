@@ -33,7 +33,7 @@ module.exports.changeEstado = (id, idExplicador) => {
     return Pedido
             .updateOne({_id : id},
                 {$set : {
-                    explicador_id : idExplicador,
+                    idExplicador : idExplicador,
                     estado: "Aceite"
                 }
             })

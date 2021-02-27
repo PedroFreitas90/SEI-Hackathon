@@ -39,20 +39,15 @@ module.exports.update = (id,explicador) => {
 }
 
 module.exports.adicionarPar = (id, pair) => {
-    console.log(pair);
+    console.log(pair)
     return Explicador
-        .updateOne({_id: id}, {$push : { "domains": pair } } ).exec()
+        .updateOne({_id: id}, {$push : { domains: pair  }} ).exec()
 }
 
 module.exports.verificaPar = (id,area,ano) => {
-    //console.log(id, area, ano)
-    return Explicador
-        .aggregate([
-            { $unwind: "$domains" }
-            //,{ $match : { "id": id} }
-            
-            //{ $match : { id : id ,"domains.area" : area , "domains.ano" : ano } }
-        ]).exec()
+    return Explicador.find({_id:id,
+    domains:{ $elemMatch : {area:area, ano:ano}}}
+    ).exec()
 }
 
 module.exports.insert = u => {

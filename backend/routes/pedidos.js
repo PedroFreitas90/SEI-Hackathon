@@ -6,6 +6,9 @@ var bcrypt = require('bcryptjs')
 
 var Pedidos = require('../controllers/pedidos');
 var Explicador = require('../controllers/explicadores');
+const { session } = require('passport');
+
+let promise = Promise.resolve();
 
 /* NOVO PEDIDO */
 router.post("/", passport.authenticate('jwt',{session:false}), function(req,res) {
@@ -22,6 +25,37 @@ router.post("/", passport.authenticate('jwt',{session:false}), function(req,res)
             .then(data => res.jsonp("Pedido adicionado com sucesso"))
             .catch(e => res.status(500).send("Erro a criar pedido"))
     }
+})
+
+/*
+Body : { idPedido : }
+*/
+
+router.post("/aceitarPedido",passport.authenticate('jwt',{session:false}),function(req,res){
+    if(req.user.tipo != "Explicador"){
+        return res.status(404).jsonp("Esta operação é só para explicadores.")
+    }
+    else{
+        Pedidos.findById(req.body.idPedido)
+            .then(pedido => {
+                console.log(pedido)
+                if(pedido) {
+                    if(pedido.estado == "Pendente") {
+                        Pedidos.changeEstado(req.body.idPedido,req.user.userId)
+                            .then(data => res.jsonp("Pedido Aceite"))
+                            .catch(e => res.status(500).jsonp(data))
+                    }
+                    else {
+                        return res.status(400).jsonp("Este pedido já foi aceite!")
+                    }
+                }
+                else {
+                    return res.status(400).jsonp("Pedido não existe!")
+                }
+            })
+            .catch(e => res.status(500).jsonp(data))
+    }
+
 })
 
 /* TODOS OS PEDIDOS */
@@ -55,37 +89,24 @@ router.get('/elegiveis', passport.authenticate('jwt',{session: false}), async fu
         return res.status(404).jsonp("Esta operação é só para explicadores.")
     }
     else{
-        console.log(req.user.userId)
-        Explicador.findById(req.user.userId)
-            .then(explicador => {
-                if(explicador) {
-                    let pedidos = []
-                                      
+        elegiveis = []
+        const pedidos = await Pedidos.getPendentes()
 
-                    res.jsonp(pedidos)
-                    
-                    
-                    
-                    /*explicador.domains.forEach(elem => {
-                        Pedidos.pedidosPendentesPorPar(elem.area, elem.ano)
-                            .then(pds =>{
-                                pds.forEach(el => {
-                                    pedidos.push(el)
-                                })
-                                console.log('PEDIDOS: ',pedidos)                      
-                            })
-                            .catch()
-                    })
-                    */
-                    
-                }
+        const promises = pedidos.map(async pedido => {
+            const t = await Explicador.verificaPar(req.user.userId,pedido.area,pedido.ano)
+            if ( t.length> 0)
+            elegiveis.push(pedido)
+            return t
+          })
 
-                else{
-                    return res.status(400).jsonp("Este explicador não existe.")
-                }
-            })
-            .catch(e => res.status(500).jsonp(e))
+        const ts = await Promise.all(promises)
+        console.log(ts)
+        res.jsonp(elegiveis)
+             
     }
+
+
+
 })
 
 module.exports = router;

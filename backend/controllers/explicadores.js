@@ -26,6 +26,13 @@ module.exports.updatePassword = (id,password) => {
         }})
 }
 
+module.exports.findByPair = (area, ano) => {
+    return Explicador
+        .find({domains : {$elemMatch: {area: area , ano: ano}}})
+        .exec()
+}
+
+
 module.exports.update = (id,explicador) => {
     return Explicador
             .updateOne({_id : id},

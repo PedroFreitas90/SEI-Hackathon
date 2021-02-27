@@ -109,4 +109,28 @@ router.get('/elegiveis', passport.authenticate('jwt',{session: false}), async fu
 
 })
 
-module.exports = router;
+
+
+/* explicadores ELEGIVEIS PARA UM PEDIDO*/
+
+router.get('/explicadores-elegiveis', passport.authenticate('jwt',{session: false}), function(req,res) {
+    Pedidos.findById(req.query.idPedido)
+            .then(pedido => {
+                console.log(pedido)
+                if(pedido) {
+                    Explicador.findByPair(pedido.area, pedido.ano)
+                        .then(data =>{ 
+                            console.log(data)    
+                            res.jsonp(data)
+                        })
+                        .catch(e => res.status(500).jsonp(e))
+                }
+                else {
+                    return res.status(400).jsonp("Pedido não existe!")
+                }
+            })
+            .catch(e => res.status(500).jsonp(data))
+})
+
+
+module.exports = router ;

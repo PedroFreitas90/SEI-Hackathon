@@ -21,7 +21,6 @@ router.post('/adicionarPar', passport.authenticate('jwt',{session:false}), funct
         return res.status(401).jsonp('Esta rota é apenas para professores!');
     else {
         console.log(req.body)    
-    var flag = 0;
     Explicador.verificaPar(req.user.userId ,req.body.area, req.body.ano)
         .then(verificaPar => {
             console.log(verificaPar)
@@ -49,6 +48,5 @@ router.post('/adicionarPar', passport.authenticate('jwt',{session:false}), funct
         })
     }
 })
- 
 
 module.exports = router;

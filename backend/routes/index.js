@@ -11,6 +11,8 @@ var Alunos = require('../controllers/alunos');
 var Explicador = require('../controllers/explicadores');
 
 router.post('/login', function(req,res){ 
+    console.log(req.body);
+
     Explicador.findByEmail(req.body.email)
         .then(explicador => {
             if(explicador.length == 1){ //É um explicador

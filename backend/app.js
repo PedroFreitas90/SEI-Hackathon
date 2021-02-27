@@ -1,12 +1,13 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
+const cors = require('cors');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var mongoose = require('mongoose');
 
 const DATABASE_NAME = 'SEI';
-const CONNECTION ='mongodb://127.0.0.1:27017/' + DATABASE_NAME 
+const CONNECTION= "mongodb+srv://admin:Puys0OX8P4b81XMr@amcyni.wi8yb.mongodb.net/SEI?retryWrites=true&w=majority"
 mongoose.connect(CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
   .then(() => console.log(`Connected to Mongo at [${DATABASE_NAME}] database...`))
   .catch((erro) => console.log(`Mongo: Error connecting to [${DATABASE_NAME}]: ${erro}`))
@@ -72,6 +73,14 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(cors());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 
 app.use('/alunos', alunosRouter);

@@ -1,4 +1,4 @@
-var Explicador = require('../models/alunos');
+var Explicador = require('../models/explicadores');
 
 module.exports.getAll = () => {
     return Explicador
@@ -26,16 +26,35 @@ module.exports.updatePassword = (id,password) => {
         }})
 }
 
-module.exports.update = (id,consumer) => {
+module.exports.update = (id,explicador) => {
     return Explicador
             .updateOne({_id : id},
                 {$set : {
-                    name : consumer.name,
-                    email : consumer.email,
-                    phone : consumer.phone
+                    name : explicador.name,
+                    email : explicador.email,
+                    phone : explicador.phone
                 }
             })
 
+}
+
+module.exports.adicionarPar = (id, pair) => {
+    console.log(pair);
+    return Explicador
+        .updateOne({_id: id}, {$push : { "domains": pair } } ).exec()
+}
+
+module.exports.verificaPar = (id,area,ano) => {
+    return Explicador
+        .aggregate([
+            { $unwind: "$domains" },
+            { $match : 
+                {
+                    $and: [
+                        { _id : id }, {"domains.area" : area} , {"domains.ano" : ano}]
+                }
+            }
+        ]).exec()
 }
 
 module.exports.insert = u => {

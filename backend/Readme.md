@@ -61,11 +61,17 @@ ___
 ## Explicador
 ### Model
 ```js
+var pairSchema = {
+  area: { type : String, required : true } ,
+  ano : { type: String, required : true }
+};
+
 Explicador = {
     name: { type: String, required: true },
     email : {type :String , required : true},
     password: { type: String, required: true },
-    phone: {type:String,required:false}
+    phone: {type:String,required:false},
+    domains: [ { type : pairSchema } ]
 };
 ```
 

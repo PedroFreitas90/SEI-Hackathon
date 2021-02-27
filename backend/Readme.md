@@ -19,6 +19,33 @@ O tipo do token pode ser 'Aluno' ou 'Explicador'
 
 ____
 
+
+## Autenticação
+### Rotas
+#### Registo
+`192.168.1.230:3000/`
+
+```js
+req.body = {
+    name: String,
+    email : String,
+    password: String,
+    phone: String,
+    tipo: String //    Explicador ou Explicando
+}
+```
+___
+
+#### Login
+`192.168.1.230:3000/login`
+
+```js
+req.body = {
+    email: String,
+    password: String
+}
+```
+
 ## Aluno
 
 ### Model
@@ -34,29 +61,6 @@ ____
 
 ### Rotas
 
-#### Registo
-`192.168.1.230:3000/alunos`
-
-```js
-req.body = {
-    name: String,
-    email : String,
-    password: String,
-    phone: String
-}
-```
-___
-
-#### Login
-`192.168.1.230:3000/alunos/login`
-
-```js
-req.body = {
-    email: String,
-    password: String
-}
-```
-___
 
 ## Explicador
 ### Model
@@ -79,31 +83,6 @@ ____
 
 ### Rotas
 
-#### Registo
-`192.168.1.230:3000/explicadores`
-
-```js
-req.body = {
-    name: String,
-    email : String,
-    password: String,
-    phone: String
-}
-```
-___
-
-#### Login
-`192.168.1.230:3000/explicadores/login`
-
-```js
-req.body = {
-    email: String,
-    password: String
-}
-```
-
-___
-
 #### Adicionar área de conhecimento
 `192.168.1.230:3000/explicadores/adicionarPar`
 
@@ -113,3 +92,22 @@ req.body = {
     ano: String     // POR EXEMPLO:    1º ano
 }
 ```
+
+
+___
+
+## Pedido
+
+### Model
+```js
+Pedido = {
+    area: { type: String, required: true },
+    ano : { type: String, required: true },
+    mensagem : { type: String, required: true },
+    aluno_id: { type: String, required: true },
+    explicador_id : { type: String, required: true, default: null  },
+    estado: { type : String, required: true, default: "Pendente"}
+});
+```
+
+Estados disponíveis: `Pendente | Aceite`

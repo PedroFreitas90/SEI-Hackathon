@@ -9,6 +9,7 @@ var GenerateToken = require('../security/generateToken')
 var Alunos = require('../controllers/alunos');
 
 
+/*
 // LOGIN
 router.post('/login', function(req,res){
     Alunos.findByEmail(req.body.email)
@@ -55,5 +56,7 @@ router.post('/', function(req,res) {
         })
         .catch(e => res.status(500).jsonp(e))
 }); 
+*/
+
 
 module.exports = router;

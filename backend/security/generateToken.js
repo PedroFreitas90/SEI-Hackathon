@@ -15,6 +15,7 @@ options: {
   issuer: "NITE"
 }
 */
+  console.log(tipo);
   return jwt.sign(
     {
         userId : userId,
@@ -25,5 +26,5 @@ options: {
       expiresIn: 60 * 60 * 6 ,
       issuer: "Tikitizi"
     }
-  );
+  )
 };

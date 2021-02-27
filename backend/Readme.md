@@ -1,7 +1,6 @@
 # Backend
 
 ## Token
-
 ```js
 token = {
     payload: {
@@ -16,7 +15,12 @@ token = {
 }
 ```
 
+O tipo do token pode ser 'Aluno' ou 'Explicador'
+
+____
+
 ## Aluno
+
 ### Model
 ```js
 Aluno = {
@@ -26,6 +30,33 @@ Aluno = {
     phone: {type:String, required:false}
 };
 ```
+____
+
+### Rotas
+
+#### Registo
+`192.168.1.230:3000/alunos`
+
+```js
+req.body = {
+    name: String,
+    email : String,
+    password: String,
+    phone: String
+}
+```
+___
+
+#### Login
+`192.168.1.230:3000/alunos/login`
+
+```js
+req.body = {
+    email: String,
+    password: String
+}
+```
+___
 
 ## Explicador
 ### Model
@@ -38,3 +69,29 @@ Explicador = {
 };
 ```
 
+____
+
+### Rotas
+
+#### Registo
+`192.168.1.230:3000/explicadores`
+
+```js
+req.body = {
+    name: String,
+    email : String,
+    password: String,
+    phone: String
+}
+```
+___
+
+#### Login
+`192.168.1.230:3000/explicadores/login`
+
+```js
+req.body = {
+    email: String,
+    password: String
+}
+```

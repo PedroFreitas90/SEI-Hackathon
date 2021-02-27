@@ -23,6 +23,7 @@ router.post('/login', function(req,res){
                     responseExplicador.email = explicador[0].email
                     responseExplicador.phone = explicador[0].phone
                     responseExplicador.tipo = "Explicador"
+                    responseExplicador.about = explicador[0].about
                     responseExplicador.token = GenerateToken.generateTokenBackend(explicador[0].id , "Explicador")
                     res.jsonp(responseExplicador);
                 }
@@ -40,6 +41,7 @@ router.post('/login', function(req,res){
                                 responseAluno.name = aluno[0].name
                                 responseAluno.email = aluno[0].email
                                 responseAluno.phone = aluno[0].phone
+                                responseAluno.about = aluno[0].about
                                 responseAluno.tipo = "Aluno"
                                 responseAluno.token = GenerateToken.generateTokenBackend(aluno[0].id , "Aluno")
                                 res.jsonp(responseAluno);
@@ -63,11 +65,8 @@ router.post('/login', function(req,res){
 
 
 router.post('/', function(req,res) {
-    console.log("Explicador");
     var newHash = bcrypt.hashSync(req.body.password);
     req.body.password = newHash
-
-    console.log("Explicador");
     
     if(req.body.tipo == "Explicador"){
         Explicador.findByEmail(req.body.email)
@@ -102,6 +101,20 @@ router.post('/', function(req,res) {
     }
 
 }); 
+
+
+router.get('/',passport.authenticate('jwt',{session:false}) , function(req,res) {
+    if(req.user.tipo == "Aluno"){
+        Alunos.findById(req.user.userId)
+            .then(d => res.jsonp(d))
+            .catch(e => res.status(500).send(e))
+    }
+    else{
+        Explicador.findById(req.user.userId)
+            .then(d => res.jsonp(d))
+            .catch(e => res.status(500).send(e))
+    }
+})
 
 
 

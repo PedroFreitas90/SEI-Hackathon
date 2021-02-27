@@ -58,6 +58,8 @@ passport.use(new JWTStrategy({
 
 var alunosRouter = require('./routes/alunos');
 var explicadoresRouter = require('./routes/explicadores');
+var pedidosRouter = require('./routes/pedidos');
+var autenticacaoRouter = require('./routes/index');
 
 var app = express();
 
@@ -71,8 +73,11 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
+
 app.use('/alunos', alunosRouter);
 app.use('/explicadores', explicadoresRouter);
+app.use('/pedidos', pedidosRouter);
+app.use('/',autenticacaoRouter);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

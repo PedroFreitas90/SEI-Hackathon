@@ -3,6 +3,58 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var mongoose = require('mongoose');
+
+const DATABASE_NAME = 'SEI';
+const CONNECTION ='mongodb://127.0.0.1:27017/' + DATABASE_NAME 
+mongoose.connect(CONNECTION, { useNewUrlParser: true, useUnifiedTopology: true })
+  .then(() => console.log(`Connected to Mongo at [${DATABASE_NAME}] database...`))
+  .catch((erro) => console.log(`Mongo: Error connecting to [${DATABASE_NAME}]: ${erro}`))
+
+/****************************
+* AUTHENTICATION [JWT]
+****************************/
+var passport = require('passport')
+var JWTStrategy = require('passport-jwt').Strategy
+var ExtractJWT = require('passport-jwt').ExtractJwt
+
+var extractFromQS = function (req) {
+  var token = null
+  if (req.query && req.query.token) token = req.query.token
+  return token
+}
+
+var extractFromBody = function (req) {
+  var token = null
+  if (req.body && req.body.token) token = req.body.token
+  return token
+}
+
+var extractFromHeader = function (req) {
+  var token = null;
+  if (req.headers.authorization && req.headers.authorization.split(' ')[0] === 'Bearer') {
+    token = req.headers.authorization.split(' ')[1];
+return token;
+}
+}
+
+passport.use(new JWTStrategy({
+  secretOrKey: 'SEI-hackathon',
+  jwtFromRequest: ExtractJWT.fromExtractors([extractFromQS, extractFromBody,extractFromHeader])
+}, async (payload, done) => {
+  try {
+    console.log(payload)
+    return done(null, payload)
+  }
+  catch (error) {
+    console.log(error)
+    return done(error)
+  }
+
+})) 
+
+
+//-------------
 
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/users');

@@ -9,6 +9,8 @@ var GenerateToken = require('../security/generateToken')
 var Alunos = require('../controllers/alunos');
 
 var Explicador = require('../controllers/explicadores');
+var Chat = require("../chat")
+
 
 router.post('/login', function(req,res){ 
     console.log(req.body);
@@ -17,6 +19,10 @@ router.post('/login', function(req,res){
         .then(explicador => {
             if(explicador.length == 1){ //É um explicador
                 if (bcrypt.compareSync(req.body.password, explicador[0].password)){
+                    Chat.create_token(explicador[0].name)
+                    .then(tokenC => {
+
+                    
                     var responseExplicador  = {}
                     responseExplicador.id = explicador[0].id
                     responseExplicador.name = explicador[0].name
@@ -25,7 +31,10 @@ router.post('/login', function(req,res){
                     responseExplicador.tipo = "Explicador"
                     responseExplicador.about = explicador[0].about
                     responseExplicador.token = GenerateToken.generateTokenBackend(explicador[0].id , "Explicador")
+                    responseExplicador.tokenChat = tokenC
                     res.jsonp(responseExplicador);
+                    })
+                    .catch(e => res.status(400).send(e))
                 }
                 else {
                   res.status(400).jsonp("Password errada!");
@@ -36,6 +45,8 @@ router.post('/login', function(req,res){
                     .then(aluno => {
                         if(aluno.length == 1) {// é aluno
                             if (bcrypt.compareSync(req.body.password, aluno[0].password)){
+                                Chat.create_token(aluno[0].name)
+                                .then(tokenC => {
                                 var responseAluno  = {}
                                 responseAluno.id = aluno[0].id
                                 responseAluno.name = aluno[0].name
@@ -44,7 +55,10 @@ router.post('/login', function(req,res){
                                 responseAluno.about = aluno[0].about
                                 responseAluno.tipo = "Aluno"
                                 responseAluno.token = GenerateToken.generateTokenBackend(aluno[0].id , "Aluno")
+                                responseAluno.tokenChat = tokenC    
                                 res.jsonp(responseAluno);
+                            })
+                            .catch(e => res.status(400).send(e))
                             }
                             else {
                               res.status(400).jsonp("Password errada!");

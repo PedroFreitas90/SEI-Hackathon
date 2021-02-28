@@ -16,13 +16,12 @@ router.get('/token',passport.authenticate('jwt',{session:false}), async function
 
 router.post('/createRoom',passport.authenticate('jwt',{session:false}), async function(req,res){
 /*
-body = {channelName:
+body = {
         member:
 }
 
 */
-const channel = await client.channel('messaging', req.user.userId + req.body.member,{ 
-    name: req.body.channelName, 
+const channel = await client.channel('messaging',{ 
     created_by_id: req.user.userId,
     members:[req.body.member,req.user.userId]
   }); 
@@ -30,13 +29,6 @@ const channel = await client.channel('messaging', req.user.userId + req.body.mem
 
 res.jsonp("channel Create")
 })
- 
-const channel = await client.channel('messaging', 'new_chat', { 
-  name: 'new_channel', 
-  created_by_id: req.params.nameOfuser,
-  members:["john",req.params.nameOfuser]
-}); 
-await channel.create();
 
 
 module.exports = router;

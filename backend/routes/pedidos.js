@@ -55,9 +55,7 @@ router.post("/atribuirPedido",passport.authenticate('jwt',{session:false}),funct
                                 Chat.create_token(req.body.emailAluno)
                                 .then(token => {
                                     console.log("token criado\n\n")
-                                    let emailExpl = req.body.emailExplicador.split('@')[0]
-                                    let emailAl = req.body.emailAluno.split('@')[0]
-                                    Chat.createRoom(emailAl, emailExpl, pedido.area)
+                                    Chat.createRoom(req.body.emailExplicador,req.body.emailAluno, pedido.area)
                                     .then(() => {
                                         console.log("room criado \n\n")
                                       res.jsonp(token)     

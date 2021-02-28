@@ -12,6 +12,8 @@ let promise = Promise.resolve();
 
 /* NOVO PEDIDO */
 router.post("/", passport.authenticate('jwt',{session:false}), function(req,res) {
+    console.log(req.user)
+    
     if(req.user.tipo != "Aluno"){
         return res.status(401).jsonp("Esta operação é só para alunos.")
     }
@@ -34,9 +36,9 @@ router.post("/", passport.authenticate('jwt',{session:false}), function(req,res)
 Body : { idPedido : }
 */
 
-router.post("/aceitarPedido",passport.authenticate('jwt',{session:false}),function(req,res){
-    if(req.user.tipo != "Explicador"){
-        return res.status(404).jsonp("Esta operação é só para explicadores.")
+router.post("/atribuirPedido",passport.authenticate('jwt',{session:false}),function(req,res){
+    if(req.user.tipo != "Aluno"){
+        return res.status(404).jsonp("Esta operação é só para alunos.")
     }
     else{
         Pedidos.findById(req.body.idPedido)
@@ -44,7 +46,7 @@ router.post("/aceitarPedido",passport.authenticate('jwt',{session:false}),functi
                 console.log(pedido)
                 if(pedido) {
                     if(pedido.estado == "Pendente") {
-                        Pedidos.changeEstado(req.body.idPedido,req.user.userId)
+                        Pedidos.changeEstado(req.body.idPedido,req.body.idExplicador)
                             .then(data => res.jsonp("Pedido Aceite"))
                             .catch(e => res.status(500).jsonp(data))
                     }

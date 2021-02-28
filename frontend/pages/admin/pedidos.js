@@ -1,4 +1,6 @@
-import React from "react";
+import React, { useContext } from "react";
+import axios from 'axios';
+
 
 // reactstrap components
 import {
@@ -18,6 +20,7 @@ import {
 } from "reactstrap";
 import Admin from "../../layouts/Admin";
 import Image from 'next/image'
+import AppContext from '../context/AppContext'; 
 
 import { bgWrap, layout, header } from '../../layouts/styles.module.css'
 
@@ -43,6 +46,31 @@ const Background = () => (
 
 
 function Pedidos() {
+
+  const [area,setArea] = React.useState('');
+  const [ano,setAno] = React.useState('');
+  const [mensagem,setMensagem] = React.useState('');
+  const { state, fazerPedido } = useContext(AppContext);
+
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    const data = {
+      area: area,
+      ano: ano,
+      mensagem: mensagem
+    };
+    console.log("fazer pedido " + state.token)
+    
+    axios.post(`http://192.168.1.230:3000/pedidos`,data,{ 
+      headers: {
+          "Authorization" : `Bearer ${state.token}`
+      } 
+    }).then( () => fazerPedido())
+    
+  }
+
+
   return (
     
     <div style={{display:"flex", width:'80vw', height: '100vh', flexDirection:'column', justifyContent:'center', alignItems: 'center' }}>
@@ -55,7 +83,7 @@ function Pedidos() {
             <div className="text-center text-muted mb-4">
               <small>Efetue o seu pedido.</small>
             </div>
-            <Form role="form">
+            <form onSubmit={handleSubmit}>
 
               <FormGroup>
               <InputGroup className="input-group-alternative">
@@ -64,10 +92,12 @@ function Pedidos() {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                 </InputGroupAddon>
-                <Input type="select" name="select" id="exampleSelect">
+                <Input type="select" name="select" onChange={e => setArea(e.target.value)} id="exampleSelect">
                   <option>Português</option>
                   <option>Matemática</option>
                   <option>Estudo Meio</option>
+
+
                 </Input>
                 </InputGroup>
             </FormGroup>
@@ -79,7 +109,7 @@ function Pedidos() {
                       <i className="ni ni-hat-3" />
                     </InputGroupText>
                 </InputGroupAddon>
-                <Input type="select" name="select" id="exampleSelect">
+                <Input type="select" name="select" onChange={e => setAno(e.target.value)} id="exampleSelect">
                   <option>1º ano</option>
                   <option>2º ano</option>
                   <option>3º ano </option>
@@ -99,6 +129,7 @@ function Pedidos() {
                         placeholder=" Observações (Tema, necessidades educativas especiais) "
                         rows="3"
                         type="textarea"
+                        onChange={e => setMensagem(e.target.value)} 
                     
                       />
                       
@@ -106,11 +137,11 @@ function Pedidos() {
                     </FormGroup>
                  
               <div className="text-center">
-                <Button className="mt-4" color="primary" type="button">
+                <Button className="mt-4" color="primary" type="submit">
                   Criar pedidos
                 </Button>
               </div>
-            </Form>
+            </form>
           </CardBody>
         </Card>
       </Col>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 
 // reactstrap components
 import {
@@ -15,11 +15,17 @@ import {
 } from "reactstrap";
 import Admin from "../../layouts/Admin";
 
+import AppContext from '../context/AppContext'
 
 // layout for this page
 // core components
 
 function Profile() {
+
+  const { state } = useContext(AppContext);
+
+  console.log(state)
+
   return (
     <>
     <div
@@ -33,25 +39,25 @@ function Profile() {
                 
                 <div className="col text-center">
                   <h3>
-                    Mónica Jardim
+                    {state.nome}
                   </h3>
                   <div className="h5 font-weight-300">
                     <i className="ni location_pin mr-2" />
-                    919401864
+                    {state.phone}
                   </div>
                   <div className="h5 font-weight-300">
                     <i className="ni business_briefcase-24 mr-2" />
-                    exemplo@mail.com
+                    {state.email}
                   </div>
 
               
                   
                   <hr className="my-4" />
                   <p>
-                  Frequento o ensino superior, na área de Engenharia Informática. Estou disponível para acompanhar alunos com necessidades em quaisquer disciplinas do ensino primário. Tenho experiência em acompanhar alunos com dislexia.
+                  {state.about}
                   </p>
 
-                  <div className="col text-center">
+                  <div className="text-center">
                   <Button
                     className="mr-4"
                     color="info"
@@ -71,7 +77,7 @@ function Profile() {
                     Enviar Mensagem
                   </Button>
                 </div>
-                
+
                 </div>
               </CardBody>
             </Card>
@@ -96,9 +102,9 @@ function Profile() {
                           </label>
                           <Input
                             className="form-control-alternative"
-                            defaultValue="Mónica Jardim"
+                            defaultValue={state.nome}
                             id="input-username"
-                            placeholder="Nome"
+                            placeholder={state.nome}
                             type="text"
                           />
                         </FormGroup>
@@ -114,7 +120,7 @@ function Profile() {
                           <Input
                             className="form-control-alternative"
                             id="input-phone"
-                            placeholder="919401864"
+                            placeholder={state.phone}
                             type="text"
                           />
                         </FormGroup>
@@ -131,7 +137,7 @@ function Profile() {
                           <label
                             className="form-control-label"
                             htmlFor="input-email"
-                            placeholder="exemplo@mail.com"
+                            placeholder={state.email}
                             type="email"
                           >
                             Endereço Email
@@ -139,7 +145,7 @@ function Profile() {
                           <Input
                             className="form-control-alternative"
                             id="input-email"
-                            placeholder="exemplo@mail.com"
+                            placeholder={state.email}
                             type="email"
                           />
                         </FormGroup>
@@ -150,14 +156,14 @@ function Profile() {
                   </div>
                   <hr className="my-4" />
                   {/* Description */}
-                  <h6 className="heading-small text-muted mb-4">Sobre Mim</h6>
+                  <h6 className="heading-small text-muted mb-4">Sobre</h6>
                   <div className="pl-lg-4">
                     <FormGroup>
                       <Input
                         className="form-control-alternative"
                         placeholder="A few words about you ..."
                         rows="4"
-                        defaultValue="Frequento o ensino superior, na área de Engenharia Informática. Estou disponível para acompanhar alunos com necessidades em quaisquer disciplinas do ensino primário. Tenho experiência em acompanhar alunos com dislexia."
+                        defaultValue={state.about}
                         type="textarea"
                       />
                     </FormGroup>

@@ -8,7 +8,7 @@ import Sidebar from "../ components/Navbars/Sidebar";
 
 import routes from "routes.js";
 
-function Admin(props) {
+function Admin2(props) {
   // used for checking current route
   const router = useRouter();
   let mainContentRef = React.createRef();
@@ -37,22 +37,22 @@ function Admin(props) {
           imgAlt: "...",
         }}
       />
+    
       <div className="main-content shadow border-10" ref={mainContentRef}>
-        <div style={{ height:'8vh'}}>
-        <AdminNavbar  {...props} brandText={getBrandText()}  />
-        </div>
-        <div   >
-        <div > {props.children}</div>
+        
+        
+        {props.children}
         </div>
         <Container fluid>
         
         </Container>
       </div>
 
-      </div>
+      
+    
     </>
    
   );
 }
 
-export default Admin;
+export default Admin2;

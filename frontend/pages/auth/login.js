@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from 'next/link'
 import axios from 'axios';
 
@@ -20,46 +20,32 @@ import {
 } from "reactstrap";
 // layout for this page
 import Auth from "layouts/Auth.js";
+import AppContext from '../context/AppContext'
 
+export default function Login () {
 
-export default class Login extends React.Component {
+  const [emailInput,setEmailInput] = React.useState('');
+  const [passwordInput,setPasswordInput] = React.useState('');
+  const { state, signIn } = useContext(AppContext);
+  
 
-  state = {
-    email: '',
-    password: ''
-  }
-
-  handleEmailChange = event => {
-    this.setState({ email: event.target.value });
-  }
-
-  handlePassChange = event => {
-    this.setState({ password: event.target.value });
-  }
-
-  handleSubmit = event => {
+  const handleSubmit = event => {
     event.preventDefault();
 
+    
     const data = {
-      email: this.state.email,
-      password: this.state.password
+      email: emailInput,
+      password: passwordInput
     };
 
-    const e = this.state.email
-    const p = this.state.password
-
-    console.log("email " + this.state.email);
-    console.log("pass " + this.state.password);
-
-    axios.post(`http://192.168.1.230:3000/login`, { data })
+    axios.post(`http://192.168.1.230:3000/login`, data )
       .then(res => {
-        console.log("res " + res);
-        console.log("data " + res.data);
+        signIn(res.data.token,res.data.email,res.data.name,res.data.phone,res.data.tipo,res.data.about);
+        console.log("resposta login " + JSON.stringify(res));
       })
   }
 
-  render() {
-    return (
+  return (
       <>
         <Col lg="5" md="7">
           <Card className="bg-secondary shadow border-0">
@@ -68,7 +54,7 @@ export default class Login extends React.Component {
               <div className="text-center text-muted mb-4">
                 <small>Efetuar Login</small>
               </div>
-              <form onSubmit={this.handleSubmit}>
+              <form onSubmit={handleSubmit}>
                 <FormGroup className="mb-3">
                   <InputGroup className="input-group-alternative">
                     <InputGroupAddon addonType="prepend">
@@ -80,7 +66,7 @@ export default class Login extends React.Component {
                       placeholder="Email"
                       type="email"
                       autoComplete="new-email"
-                      onChange={this.handleEmailChange}
+                      onChange={e => setEmailInput(e.target.value)}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -95,7 +81,7 @@ export default class Login extends React.Component {
                       placeholder="Password"
                       type="password"
                       autoComplete="new-password"
-                      onChange={this.handlePassChange}
+                      onChange={e => setPasswordInput(e.target.value)}
                     />
                   </InputGroup>
                 </FormGroup>
@@ -129,7 +115,6 @@ export default class Login extends React.Component {
         </Col>
       </>
     );
-  }
   
 }
 

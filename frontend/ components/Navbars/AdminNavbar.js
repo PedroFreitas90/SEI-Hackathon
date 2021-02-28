@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useContext } from "react";
 import Link from "next/link";
 // reactstrap components
 import {
@@ -18,9 +18,12 @@ import {
   Media,
  Button
 } from "reactstrap";
+import AppContext from "../../pages/context/AppContext";
+import { Router } from "next/router";
 
 
 function AdminNavbar({ brandText }) {
+
   return (
     <>
       <Navbar className="navbar-top navbar-dark " expand="md" id="navbar-main">
@@ -56,14 +59,10 @@ function AdminNavbar({ brandText }) {
                     <span>SupportSupportvSupportSupportSupportSupportSupportSupportSupport</span>
                   </DropdownItem>
                 </Link>
-                <DropdownItem divider />
-                <DropdownItem href="#pablo" onClick={(e) => e.preventDefault()}>
-                  <i className="ni ni-user-run" />
-                  <span>Logout</span>
-                </DropdownItem>
               </DropdownMenu>
             </UncontrolledDropdown>
-            <Button onClick={(e) => e.preventDefault()}>
+            <Button onClick={() => {
+            }}>
                 <i className="ni ni-user-run" />
                 <small>Logout</small>
               </Button>

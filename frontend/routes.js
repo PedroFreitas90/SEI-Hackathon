@@ -1,5 +1,4 @@
 var routes = [
-  
   {
     path: "/profile",
     name: "Perfil",

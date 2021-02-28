@@ -9,10 +9,12 @@ async function create_token(userEmail){
 }  
 
 async function createRoom(userEmail,member, chatName){
-  const channel = await client.channel('messaging',chatName,{ 
+  const channel = await client.channel('messaging', { 
+    name: chatName,
     created_by_id: userEmail,
     members:[userEmail,member]
   }); 
+  console.log(channel)
   await channel.create();
   return
 }

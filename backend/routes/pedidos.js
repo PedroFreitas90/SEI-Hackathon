@@ -43,6 +43,7 @@ router.post("/atribuirPedido",passport.authenticate('jwt',{session:false}),funct
         return res.status(404).jsonp("Esta operação é só para alunos.")
     }
     else{
+        console.log(req.body)
         Pedidos.findById(req.body.idPedido)
             .then(pedido => {
                 console.log(pedido)
@@ -50,23 +51,39 @@ router.post("/atribuirPedido",passport.authenticate('jwt',{session:false}),funct
                     if(pedido.estado == "Pendente") {
                         Pedidos.changeEstado(req.body.idPedido,req.body.idExplicador)
                             .then(data => {
+                                console.log("\n\nAntes do create token\n\n")
                                 Chat.create_token(req.body.emailAluno)
                                 .then(token => {
-                                    Chat.createRoom(req.body.emailAluno,req.body.emailExplicador,pedido.ano + " " + pedido.area)
+                                    console.log("token criado\n\n")
+                                    let emailExpl = req.body.emailExplicador.split('@')[0]
+                                    let emailAl = req.body.emailAluno.split('@')[0]
+                                    Chat.createRoom(emailAl, emailExpl, pedido.area)
                                     .then(() => {
+                                        console.log("room criado \n\n")
                                       res.jsonp(token)     
                                     })
-                                    .catch(e => res.status(500).jsonp(data))   
+                                    .catch(e => {
+                                        console.log(e);
+                                        res.status(500).jsonp(e)
+                                    })   
                                 })
-                                .catch(e => res.status(500).jsonp(data))
+                                .catch(e => {
+                                    console.log(e);
+                                    res.status(500).jsonp(e)
+                                })
                             }) 
-                            .catch(e => res.status(500).jsonp(data))
+                            .catch(e => {
+                                console.log(e);
+                                res.status(500).jsonp(data)
+                            })
                     }
                     else {
+                        console.log("1")
                         return res.status(400).jsonp("Este pedido já foi aceite!")
                     }
                 }
                 else {
+                    console.log("2");
                     return res.status(400).jsonp("Pedido não existe!")
                 }
             })

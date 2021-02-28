@@ -73,20 +73,27 @@ class App extends React.Component {
     event.preventDefault();
   }
   
+
+  componentDidMount(){
+    const { state } = this.context;
+
+    console.log("-- " + state.nome)
+    console.log("- - " + state.tokenC)
+  
+  
+    chatClient.connectUser({ id: state.nome }, state.tokenC);
+  }
+
 render(){
-  const {state } =this.context;
-
-  console.log("-- " + state.nome)
-  console.log("- - " + state.tokenC)
-
+  const { state } = this.context;
+  
   const filters = { type: 'messaging', members: {$in:[state.nome]}};
-  const options = {};
-  const sort = {
-    cid: 1,
-    last_message_at: -1,
-    updated_at: -1,
-};
-  chatClient.connectUser({ id: state.nome }, state.tokenC);
+    const options = {};
+    const sort = {
+      cid: 1,
+      last_message_at: -1,
+      updated_at: -1,
+  };
 
   return(
     <>

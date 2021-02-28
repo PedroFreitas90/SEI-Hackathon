@@ -59,15 +59,12 @@ function AdminNavbar({ brandText }) {
         
                 <Link href="/admin/profile">
                   <DropdownItem>
-                   
-                    <span>ActivitySupSupportSupportSu
-                       pportportSupportSupportSupportSupportSupportSupportSupport</span>
+                    <span>Uma notificação</span>
                   </DropdownItem>
                 </Link>
                 <Link href="/admin/profile">
                   <DropdownItem>
-                    <i className="ni ni-support-16" />
-                    <span>SupportSupportvSupportSupportSupportSupportSupportSupportSupport</span>
+                    <span>Outra notificação</span>
                   </DropdownItem>
                 </Link>
               </DropdownMenu>

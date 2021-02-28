@@ -12,12 +12,6 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/pendentes",
-    name: "Pedidos Pendentes",
-    icon: "ni ni-time-alarm text-dark",
-    layout: "/admin",
-  },
-  {
     path: "/App",
     name: "Conversas",
     icon: "ni ni-chat-round text-dark",

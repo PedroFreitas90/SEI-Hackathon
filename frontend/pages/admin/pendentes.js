@@ -7,24 +7,6 @@ import AppContext from '../context/AppContext';
 
 import { bgWrap, layout, header } from '../../layouts/styles.module.css'
 
-// layout for this page
-// core components
-
-const Background = () => (
-    <div>
-      <div className={bgWrap}>
-          <Image
-            alt="bg"
-            src="/fundo.png"
-            layout="fill"
-            objectFit="cover"
-            quality={100}
-            
-          />
-        </div>
-      </div>
-    )
-
 
 
 function Pendentes() {

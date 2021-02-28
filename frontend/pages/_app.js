@@ -46,12 +46,13 @@ export default class MyApp extends App {
 
   componentDidMount = async () => {
     const token = localStorage.getItem('token');
-
+    const tokenC = localStorage.getItem('tokenC')
+    console.log("Token C " + tokenC)
     if (token) {
       const res = await axios.get(`http://192.168.1.230:3000/`,{ headers: {"Authorization" : `Bearer ${token}`} })
-      localStorage.setItem('tokenC', res.data.tokenChat);
+      
       this.setState({
-        tokenC: res.data.tokenChat,
+        tokenC: tokenC,
         email: res.data.email,
         token: token,
         about: res.data.about,
@@ -107,7 +108,7 @@ export default class MyApp extends App {
 
   signIn = (token,email,nome,phone,type,about,tokenChat) => {
     localStorage.setItem('token', token);
-
+    localStorage.setItem('tokenC',tokenChat);
     this.setState(
       {
         email: email,
@@ -134,7 +135,8 @@ export default class MyApp extends App {
         about: '',
         type: '',
         phone: '',
-        nome: ''
+        nome: '',
+        tokenC: ''
       });
       Router.push('/auth/login');
     };

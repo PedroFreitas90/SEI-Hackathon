@@ -7,8 +7,14 @@ var routes = [
   },
   {
     path: "/pedidos",
-    name: "Pedidos",
+    name: "Efetuar Pedido",
     icon: "ni ni-check-bold text-dark",
+    layout: "/admin",
+  },
+  {
+    path: "/pendentes",
+    name: "Pedidos Pendentes",
+    icon: "ni ni-time-alarm text-dark",
     layout: "/admin",
   },
   {

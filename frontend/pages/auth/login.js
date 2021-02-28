@@ -40,7 +40,7 @@ export default function Login () {
 
     axios.post(`http://192.168.1.230:3000/login`, data )
       .then(res => {
-        signIn(res.data.token,res.data.email,res.data.name,res.data.phone,res.data.tipo,res.data.about);
+        signIn(res.data.token,res.data.email,res.data.name,res.data.phone,res.data.tipo,res.data.about,res.data.tokenChat);
         console.log("resposta login " + JSON.stringify(res));
       })
   }
@@ -94,24 +94,6 @@ export default function Login () {
               </form>
             </CardBody>
           </Card>
-          <Row className="mt-3">
-            <Col xs="6">
-              <a
-                className="text-light"
-                href="#pablo"
-                onClick={(e) => e.preventDefault()}
-              >
-                <small>Forgot password?</small>
-              </a>
-            </Col>
-            <Col className="text-right" xs="6">
-              <Link href="/auth/register">
-                <a className="text-light"><small>Create new account</small></a>
-              </Link>
-            </Col>
-          </Row>
-  
-          
         </Col>
       </>
     );

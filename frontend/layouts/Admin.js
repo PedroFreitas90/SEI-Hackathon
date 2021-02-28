@@ -38,7 +38,7 @@ function Admin(props) {
         }}
       />
       <div className="main-content shadow border-10" ref={mainContentRef}>
-        <div style={{ height:'8vh'}}>
+        <div>
         <AdminNavbar  {...props} brandText={getBrandText()}  />
         </div>
         <div   >

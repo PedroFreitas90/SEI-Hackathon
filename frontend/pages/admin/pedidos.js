@@ -66,7 +66,8 @@ function Pedidos() {
       headers: {
           "Authorization" : `Bearer ${state.token}`
       } 
-    }).then( () => fazerPedido())
+    }).then( (res) => 
+    fazerPedido(res.data))
     
   }
 
@@ -93,9 +94,9 @@ function Pedidos() {
                     </InputGroupText>
                 </InputGroupAddon>
                 <Input type="select" name="select" onChange={e => setArea(e.target.value)} id="exampleSelect">
-                  <option>Português</option>
-                  <option>Matemática</option>
-                  <option>Estudo Meio</option>
+                  <option>Portugues</option>
+                  <option>Matematica</option>
+                  <option>Estudo do Meio</option>
 
 
                 </Input>
@@ -110,10 +111,10 @@ function Pedidos() {
                     </InputGroupText>
                 </InputGroupAddon>
                 <Input type="select" name="select" onChange={e => setAno(e.target.value)} id="exampleSelect">
-                  <option>1º ano</option>
-                  <option>2º ano</option>
-                  <option>3º ano </option>
-                  <option>4º ano </option>
+                  <option>1o ano</option>
+                  <option>2o ano</option>
+                  <option>3o ano </option>
+                  <option>4o ano </option>
                 </Input>
                 </InputGroup>
             </FormGroup>

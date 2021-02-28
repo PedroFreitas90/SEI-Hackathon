@@ -28,7 +28,10 @@ export default class MyApp extends App {
     about: '',
     type: '',
     phone: '',
-    nome: ''
+    nome: '',
+    idpedido: '',
+    explicadores: [],
+    tokenC: ''
   }
   
   static async getInitialProps({ Component, router, ctx }) {
@@ -46,32 +49,63 @@ export default class MyApp extends App {
 
     if (token) {
       const res = await axios.get(`http://192.168.1.230:3000/`,{ headers: {"Authorization" : `Bearer ${token}`} })
-
+      localStorage.setItem('tokenC', res.data.tokenChat);
       this.setState({
+        tokenC: res.data.tokenChat,
         email: res.data.email,
         token: token,
         about: res.data.about,
         type: res.data.tipo,
         phone: res.data.phone,
-        nome: res.data.name
+        nome: res.data.name,
       });
     } else {
       Router.push('/auth/login');
     }
   };
 
-  fazerPedido = () => {
+  fazerPedido = async (id) => {
     const token = localStorage.getItem('token');
-    console.log("tok " + token)
+    console.log("id " + id)
     if (token) {
+      const res = await axios.get(`http://192.168.1.230:3000/pedidos/explicadores-elegiveis?idPedido=`+id,{ headers: {"Authorization" : `Bearer ${token}`} })
+      console.log("Resultado " + JSON.stringify(res.data))
+      this.setState({
+        explicadores: res.data,
+        idpedido: id
+      });
+
       Router.push('/admin/available')
     } else {
       Router.push('/auth/login');
     }
   }
 
+  escolherExplicador = async (explicador) => {
+    const token = localStorage.getItem('token');
 
-  signIn = (token,email,nome,phone,type,about) => {
+    if (token) {
+      const data = {
+        idPedido: this.state.idpedido,
+        idExplicador: explicador._id,
+        emailExplicador: explicador.name,
+        emailAluno: this.state.nome
+      }
+      console.log("data " + JSON.stringify(data))
+      const res = await axios.post(`http://192.168.1.230:3000/pedidos/atribuirPedido`,
+      data,
+      { headers: {"Authorization" : `Bearer ${token}`} })
+      console.log("Resultado " + JSON.stringify(res.data))
+      
+
+      Router.push('/admin/profile')
+    } else {
+      Router.push('/auth/login');
+    }
+  }
+
+
+  signIn = (token,email,nome,phone,type,about,tokenChat) => {
     localStorage.setItem('token', token);
 
     this.setState(
@@ -81,7 +115,8 @@ export default class MyApp extends App {
         type: type,
         phone: phone,
         nome: nome,
-        about: about
+        about: about,
+        tokenC: tokenChat
       },
       () => {
         Router.push('/admin/profile');
@@ -120,7 +155,7 @@ export default class MyApp extends App {
           <title>Explica</title>
         </Head>
         <Layout>
-        <AppContext.Provider value={{state: this.state, signIn: this.signIn, signOut: this.signOut, fazerPedido: this.fazerPedido}}>
+        <AppContext.Provider value={{state: this.state, signIn: this.signIn, signOut: this.signOut, escolherExplicador: this.escolherExplicador, fazerPedido: this.fazerPedido}}>
           <Component {...pageProps} />
           </AppContext.Provider>
         </Layout>

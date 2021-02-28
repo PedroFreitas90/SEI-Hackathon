@@ -24,6 +24,17 @@ import { Router } from "next/router";
 
 function AdminNavbar({ brandText }) {
 
+  const handleSubmit = event => {
+    event.preventDefault();
+
+    console.log('boas')
+    localStorage.clear();
+    
+  }
+
+
+
+
   return (
     < >
       <Navbar className="navbar-top navbar-dark " expand="md" id="navbar-main">
@@ -61,8 +72,7 @@ function AdminNavbar({ brandText }) {
                 </Link>
               </DropdownMenu>
             </UncontrolledDropdown>
-            <Button onClick={() => {
-            }}>
+            <Button onClick={handleSubmit}>
                 <i className="ni ni-user-run" />
                 <small>Logout</small>
               </Button>

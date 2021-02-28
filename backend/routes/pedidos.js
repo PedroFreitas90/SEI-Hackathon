@@ -8,6 +8,8 @@ var Pedidos = require('../controllers/pedidos');
 var Explicador = require('../controllers/explicadores');
 const { session } = require('passport');
 
+var Chat = require("../chat")
+
 let promise = Promise.resolve();
 
 /* NOVO PEDIDO */
@@ -47,7 +49,17 @@ router.post("/atribuirPedido",passport.authenticate('jwt',{session:false}),funct
                 if(pedido) {
                     if(pedido.estado == "Pendente") {
                         Pedidos.changeEstado(req.body.idPedido,req.body.idExplicador)
-                            .then(data => res.jsonp("Pedido Aceite"))
+                            .then(data => {
+                                Chat.create_token(req.body.emailAluno)
+                                .then(token => {
+                                    Chat.createRoom(req.body.emailAluno,req.body.emailExplicador,pedido.ano + " " + pedido.area)
+                                    .then(() => {
+                                      res.jsonp(token)     
+                                    })
+                                    .catch(e => res.status(500).jsonp(data))   
+                                })
+                                .catch(e => res.status(500).jsonp(data))
+                            }) 
                             .catch(e => res.status(500).jsonp(data))
                     }
                     else {

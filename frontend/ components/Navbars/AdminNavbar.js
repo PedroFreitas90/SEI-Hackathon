@@ -25,7 +25,7 @@ import { Router } from "next/router";
 function AdminNavbar({ brandText }) {
 
   return (
-    <>
+    < >
       <Navbar className="navbar-top navbar-dark " expand="md" id="navbar-main">
         <Container fluid>
           <Link href="/admin/dashboard">

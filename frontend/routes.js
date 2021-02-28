@@ -12,7 +12,7 @@ var routes = [
     layout: "/admin",
   },
   {
-    path: "/tables",
+    path: "/App",
     name: "Conversas",
     icon: "ni ni-chat-round text-dark",
     layout: "/admin",

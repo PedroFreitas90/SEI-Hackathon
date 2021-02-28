@@ -13,7 +13,7 @@ let promise = Promise.resolve();
 /* NOVO PEDIDO */
 router.post("/", passport.authenticate('jwt',{session:false}), function(req,res) {
     if(req.user.tipo != "Aluno"){
-        return res.status(404).jsonp("Esta operação é só para alunos.")
+        return res.status(401).jsonp("Esta operação é só para alunos.")
     }
     else{
         req.body.idAluno = req.user.userId
@@ -22,7 +22,10 @@ router.post("/", passport.authenticate('jwt',{session:false}), function(req,res)
         //console.log(req.body)
 
         Pedidos.insert(req.body)
-            .then(data => res.jsonp("Pedido adicionado com sucesso"))
+            .then(data => {
+                console.log(data)
+                res.send(data.id)
+            })
             .catch(e => res.status(500).send("Erro a criar pedido"))
     }
 })
